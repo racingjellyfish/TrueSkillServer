@@ -36,7 +36,7 @@ module.exports = function(grunt) {
 			all: ['test/ui/**/*.html']
 		},
 		jshint: {
-			files: ['gruntfile.js', 'lib/**/*.js', 'test/**/*.js'],
+			files: ['gruntfile.js', 'lib/**/*.js', 'routes/**/*.js', 'test/**/*.js'],
 			options: {
 				// options here to override JSHint defaults
 				ignores: ['test/libs/**'],
