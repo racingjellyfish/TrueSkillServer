@@ -1,18 +1,13 @@
-var http = require('http');
-var url = require('url');
-var fs = require('fs');
-var TrueSkillCalculator = require('jstrueskill').TrueSkillCalculator;
+# TrueSkillServer #
 
-var port = process.env.port || 8888;
+A JavaScript based server running the TrueSkill ranking algorithm.
 
-/*
-
-TODO:
+## TODO:##
 DONE 1) figure out how to package a module for re-use
-2) explore Express/Jade/fab.js
+2) explore Express/Jade
 3) try the node debugger
 4) deployment
-5) upload true skill library code to github
+DONE 5) upload true skill library code to github
 6) write the server app to use the library code
 7) figure out how the UI should work
 8) database for storing skills
@@ -36,30 +31,5 @@ DONE 1) figure out how to package a module for re-use
 20) for each match show the probability of the actual result, is this possible before
     the match is played?  see: TrueSkillFactorGraph.getProbabilityOfRanking()
 21) could this be used to analyse football matches/horse races/etc?
-22)
-23)
-
-*/
-
-function httpRequest(request, response) {
-	var _get = url.parse(request.url, true).query;
-	response.writeHead(200, {'Content-Type': 'text/plain'});
-	response.write('Hello!\n');
-	if (_get.data) {
-		response.write('Here is your data: ' + _get.data);
-		response.end();
-		fs.writeFile('test.txt', _get.data);
-	} else {
-		response.write('No data specified\n');
-		fs.readFile("test.txt", 'utf-8', function (error, data) {
-			if (error) {
-				console.log('Error: ' + error);
-				return;
-			}
-			response.write('Previous data:' + data);
-			response.end();
-		});
-	}
-}
-
-http.createServer(httpRequest).listen(port);
+22) DONE publish true skill library code to npm
+23) ...
