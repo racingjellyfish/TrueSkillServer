@@ -9,15 +9,27 @@ There are 3 simple steps to get this server up and running:
 - cd TrueSkillServer
 - node app.js
 
-You should now be able to visit: [localhost](http://localhost:3000/calculator?teamOneMean=25&teamOneStd=8.33333&teamTwoMean=25&teamTwoStd=8.33333)
+You should now be able to visit: [localhost](http://localhost:3000/calculator)
 and see the results of the match between two default ranked players with player 1 winning the match.
 
-## TODO:##
-DONE 1. figure out how to package a module for re-use
+Or you can add one or more of the following URL parameters to override the default settings:
+
+- teamOneMean: specify the team one mean skill
+- teamOneStd: specify the team one skill standard deviation
+- teamOneRank: specify the team one rank
+- teamTwoMean: specify the team two mean skill
+- teamTwoStd: specify the team two skill standard deviation
+- teamTwoRank: specify the team two rank
+
+This allows you to specify the team skills before the match and the result of the match, for example:
+
+- [draw between differently ranked teams](http://localhost:3000/calculator?teamOneMean=30&teamOneRank=1&teamTwoRank=1)
+- [lower ranked team beats a higher ranked team](http://localhost:3000/calculator?teamOneMean=30&teamOneRank=2&teamTwoRank=1)
+
+### TODO:###
 2. explore Express/Jade
 3. try the node debugger
 4. deployment
-DONE 5. upload true skill library code to github
 6. write the server app to use the library code
 7. figure out how the UI should work
 8. database for storing skills
@@ -41,5 +53,9 @@ DONE 5. upload true skill library code to github
 20. for each match show the probability of the actual result, is this possible before
     the match is played?  see: TrueSkillFactorGraph.getProbabilityOfRanking()
 21. could this be used to analyse football matches/horse races/etc?
-22. DONE publish true skill library code to npm
 23. ...
+
+###Done###
+1. figure out how to package a module for re-use
+5. upload true skill library code to github
+22. publish true skill library code to npm

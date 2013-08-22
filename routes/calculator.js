@@ -9,17 +9,19 @@ var FactorGraphTrueSkillCalculator = require('jstrueskill').FactorGraphTrueSkill
 var express = require('express');
 
 exports.calculate = function(req, res){
-	var teamOneMean = req.param('teamOneMean');
-	var teamOneStd = req.param('teamOneStd');
-	var teamOneRank = req.param('teamOneRank');
-	var teamTwoMean = req.param('teamTwoMean');
-	var teamTwoStd = req.param('teamTwoStd');
-	var teamTwoRank = req.param('teamTwoRank');
+	var gameInfo = GameInfo.getDefaultGameInfo();
+
+	var defaultRating = gameInfo.getDefaultRating();
+
+	var teamOneMean = req.param('teamOneMean') || defaultRating.getMean();
+	var teamOneStd = req.param('teamOneStd') || defaultRating.getStandardDeviation();
+	var teamOneRank = req.param('teamOneRank') || 1;
+	var teamTwoMean = req.param('teamTwoMean') || defaultRating.getMean();
+	var teamTwoStd = req.param('teamTwoStd') || defaultRating.getStandardDeviation();
+	var teamTwoRank = req.param('teamTwoRank') || 2;
 
 	var teamOneRating = new Rating(teamOneMean, teamOneStd);
 	var teamTwoRating = new Rating(teamTwoMean, teamTwoStd);
-
-	var gameInfo = GameInfo.getDefaultGameInfo();
 
 	var player1 = new Player('1');
 	var player2 = new Player('2');
@@ -31,7 +33,7 @@ exports.calculate = function(req, res){
 
 	var calculator = new FactorGraphTrueSkillCalculator();
 
-	var newRatings = calculator.calculateNewRatings(gameInfo, teams, [1, 2]);
+	var newRatings = calculator.calculateNewRatings(gameInfo, teams, [teamOneRank, teamTwoRank]);
 	var teamOneNewRating = newRatings[player1];
 	var teamTwoNewRating = newRatings[player2];
 
