@@ -1,5 +1,4 @@
-var MatchDataProcessor =
-	require('../../../../../lib/racingjellyfish/trueskillserver/match/MatchDataProcessor');
+var MatchDataProcessor = require('../../../lib/match/MatchDataProcessor');
 
 exports.testNoConstructor = function(test) {
 	test.ok(typeof MatchDataProcessor !== 'function', 'No constructor expected');
