@@ -9,7 +9,22 @@ var Rating = JsTrueSkill.Rating;
 var Team = JsTrueSkill.Team;
 var FactorGraphTrueSkillCalculator = JsTrueSkill.FactorGraphTrueSkillCalculator;
 
-exports.calculate = function(req, res){
+exports.entry = function(req, res){
+	var gameInfo = GameInfo.getDefaultGameInfo();
+
+	var defaultRating = gameInfo.getDefaultRating();
+
+	res.render('match', {
+		teamOneMean: defaultRating.getMean(),
+		teamOneStd: defaultRating.getStandardDeviation(),
+		teamOneRank: 1,
+		teamTwoMean: defaultRating.getMean(),
+		teamTwoStd: defaultRating.getStandardDeviation(),
+		teamTwoRank: 2
+	});
+};
+
+exports.calculate = function(req, res) {
 	var gameInfo = GameInfo.getDefaultGameInfo();
 
 	var defaultRating = gameInfo.getDefaultRating();
@@ -38,10 +53,16 @@ exports.calculate = function(req, res){
 	var teamOneNewRating = newRatings[player1];
 	var teamTwoNewRating = newRatings[player2];
 
-	res.render('calculation', {
+	res.render('match', {
 		teamOneRating: teamOneRating,
 		teamTwoRating: teamTwoRating,
 		teamOneNewRating: teamOneNewRating,
-		teamTwoNewRating: teamTwoNewRating
+		teamTwoNewRating: teamTwoNewRating,
+		teamOneMean: teamOneNewRating.getMean(),
+		teamOneStd: teamOneNewRating.getStandardDeviation(),
+		teamOneRank: 1,
+		teamTwoMean: teamTwoNewRating.getMean(),
+		teamTwoStd: teamTwoNewRating.getStandardDeviation(),
+		teamTwoRank: 2
 	});
 };
