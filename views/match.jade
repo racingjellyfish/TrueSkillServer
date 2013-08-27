@@ -2,12 +2,6 @@ extends layout
 
 block content
   h1= title
-  form
-  p Team 1 Rating: #{teamOneRating}
-  p Team 2 Rating: #{teamTwoRating}
-  p
-  p Team 1 Updated Rating: #{teamOneNewRating}
-  p Team 2 Updated Rating: #{teamTwoNewRating}
 
   div
     form(action='/matchCalculate',method='post')
@@ -32,3 +26,6 @@ block content
                 input(id='teamTwoRank',type='text',value=teamTwoRank,placeholder='',name='teamTwoRank')
         div(data-role='fieldcontain')
             input(type='submit',value='Calculate',data-transition='fade', data-theme='c')
+
+    p Team 1 Updated Rating: #{teamOneNewRating}
+    p Team 2 Updated Rating: #{teamTwoNewRating}
