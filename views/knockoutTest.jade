@@ -1,0 +1,25 @@
+extends layout
+
+block content
+    div.page-header
+        h1= title
+
+    div.row
+        div.span12
+            p First name:
+                strong(data-bind="text: firstName")
+            p Last name:
+                strong(data-bind="text: lastName")
+            p Full name:
+                strong(data-bind="text: fullName")
+            p First Name:
+                input(data-bind="value: firstName")
+            p Last Name:
+                input(data-bind="value: lastName")
+            button(data-bind="click: capitalizeLastName").btn Go caps
+
+block scripts
+    script(type='text/javascript', src='/javascript/jquery-1.7.2.min.js')
+    script(type='text/javascript', src='/javascript/bootstrap.min.js')
+    script(type='text/javascript', src='/javascript/knockout-2.1.0.js')
+    script(type='text/javascript', src='/javascript/knockoutTest.js')
