@@ -32,7 +32,7 @@ app.get('/', routes.index);
 app.get('/users', user.list);
 app.get('/calculator', calculator.calculate);
 app.get('/knockoutTest', knockoutTest.view);
-app.get('/userData', function(req, res){ res.render('userData', {firstName: 'Bob'});});
+app.get('/userData', function(req, res){ res.json( {firstName: 'Bob'});});
 
 app.get('/matchEntry', match.entry);
 app.post('/matchCalculate', match.calculate);

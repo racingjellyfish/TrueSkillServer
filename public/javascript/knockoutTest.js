@@ -14,13 +14,18 @@ $(document).ready(function() {
 	}
 	var viewModel = new ViewModel();
 
-	$.ajax({ url: '/userData',
+	$.ajax({url: '/userData',
+		dataType: 'json',
 		data: {id:5},
-		dataType: 'jsonp'
-	}).done(function (data) {
+		success: function (data) {
 			console.log('data loaded: ', data);
 			viewModel.firstName (data.firstName);
-		});
+		},
+		error: function (httpRequest, textStatus, errorThrown) {
+			console.log('data loaded: ', httpRequest, textStatus, errorThrown);
+			viewModel.firstName (data.firstName);
+		}
+	});
 
 	ko.applyBindings(viewModel);
 });
