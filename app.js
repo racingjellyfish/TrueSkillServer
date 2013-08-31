@@ -3,10 +3,9 @@
  */
 var express = require('express');
 var routes = require('./routes');
-var user = require('./routes/user');
+var users = require('./routes/users');
 var calculator = require('./routes/calculator');
 var match = require('./routes/match');
-var knockoutTest = require('./routes/knockoutTest');
 var http = require('http');
 var path = require('path');
 
@@ -29,10 +28,8 @@ if ('development' == app.get('env')) {
 }
 
 app.get('/', routes.index);
-app.get('/users', user.list);
+app.get('/users', users.list);
 app.get('/calculator', calculator.calculate);
-app.get('/knockoutTest', knockoutTest.view);
-app.get('/userData', function(req, res){ res.json( {firstName: 'Bob'});});
 
 app.get('/matchEntry', match.entry);
 app.post('/matchCalculate', match.calculate);

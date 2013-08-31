@@ -4,6 +4,9 @@ block content
   h1= title
 
   div
+    select(data-bind="options: users, optionsText: 'name'")
+
+  div
     form(action='/matchCalculate',method='post')
         div(data-role='fieldcontain')
             fieldset(data-role='controlgroup')
@@ -29,3 +32,9 @@ block content
 
     p Team 1 Updated Rating: #{teamOneNewRating}
     p Team 2 Updated Rating: #{teamTwoNewRating}
+
+    block scripts
+    script(type='text/javascript', src='/javascript/jquery-1.7.2.min.js')
+    script(type='text/javascript', src='/javascript/bootstrap.min.js')
+    script(type='text/javascript', src='/javascript/knockout-2.1.0.js')
+    script(type='text/javascript', src='/javascript/userModel.js')
