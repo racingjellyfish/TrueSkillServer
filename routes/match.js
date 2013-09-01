@@ -36,14 +36,23 @@ exports.calculate = function(req, res) {
 	var teamOneNewRating = newRatings[players[0]];
 	var teamTwoNewRating = newRatings[players[1]];
 
-	res.render('match', {
-		teamOneNewRating: teamOneNewRating,
-		teamTwoNewRating: teamTwoNewRating,
-		teamOneMean: teamOneNewRating.getMean(),
-		teamOneStd: teamOneNewRating.getStandardDeviation(),
-		teamOneRank: ranks[0],
-		teamTwoMean: teamTwoNewRating.getMean(),
-		teamTwoStd: teamTwoNewRating.getStandardDeviation(),
-		teamTwoRank: ranks[1]
+
+	var users = [];
+	users.push({
+		id: 0,
+		name: 'Bob',
+		rating: {
+			mean: teamOneNewRating.getMean(),
+			std: teamOneNewRating.getStandardDeviation()
+		}
 	});
+	users.push({
+		id: 1,
+		name: 'Baldric',
+		rating: {
+			mean: teamTwoNewRating.getMean(),
+			std: teamTwoNewRating.getStandardDeviation()
+		}
+	});
+	res.send(users);
 };

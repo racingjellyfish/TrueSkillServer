@@ -4,37 +4,47 @@ block content
   h1= title
 
   div
-    select(data-bind="options: users, optionsText: 'name'")
+    select(data-bind="options: users, optionsText: 'name', value: teamOne()")
+    select(data-bind="options: users, optionsText: 'name', value: teamTwo()")
+    input(type="button", value="Test", data-bind="click: test")
 
   div
-    form(action='/matchCalculate',method='post')
-        div(data-role='fieldcontain')
-            fieldset(data-role='controlgroup')
-                label(for='teamOneMean') Team One Mean
-                input(id='teamOneMean',type='text',value=teamOneMean,placeholder='',name='teamOneMean')
-            fieldset(data-role='controlgroup')
-                label(for='teamOneStd') Team One Std
-                input(id='teamOneStd',type='text',value=teamOneStd,placeholder='',name='teamOneStd')
-            fieldset(data-role='controlgroup')
-                label(for='teamOneRank') Team One Rank
-                input(id='teamOneRank',type='text',value=teamOneRank,placeholder='',name='teamOneRank')
-            fieldset(data-role='controlgroup')
-                label(for='teamTwoMean') Team Two Mean
-                input(id='teamTwoMean',type='text',value=teamTwoMean,placeholder='',name='teamTwoMean')
-            fieldset(data-role='controlgroup')
-                label(for='teamTwoStd') Team Two Std
-                input(id='teamTwoStd',type='text',value=teamTwoStd,placeholder='',name='teamTwoStd')
-            fieldset(data-role='controlgroup')
-                label(for='teamTwoRank') Team Two Rank
-                input(id='teamTwoRank',type='text',value=teamTwoRank,placeholder='',name='teamTwoRank')
-        div(data-role='fieldcontain')
-            input(type='submit',value='Calculate',data-transition='fade', data-theme='c')
+    div
+        span Team One Mean
+        div(data-bind="if: teamOne()")
+            span(data-bind="text: teamOne().rating.mean")
+    div
+        span Team One Std
+        div(data-bind="if: teamOne()")
+            span(data-bind="text: teamOne().rating.std")
+    div
+        span Team One Rank
+        div(data-bind="if: teamOne()")
+            input(data-bind="value: teamOne().rank")
+    div
+        span Team Two Mean
+        div(data-bind="if: teamTwo()")
+            span(data-bind="text: teamTwo().rating.mean")
+    div
+        span Team Two Std
+        div(data-bind="if: teamTwo()")
+            span(data-bind="text: teamTwo().rating.std")
+    div
+        span Team Two Rank
+        div(data-bind="if: teamTwo()")
+            input(data-bind="value: teamTwo().rank")
+
+    div
+        input(type='button',value='Calculate',data-bind='click: submit')
 
     p Team 1 Updated Rating: #{teamOneNewRating}
     p Team 2 Updated Rating: #{teamTwoNewRating}
+
+    pre(data-bind="text: ko.toJSON($root, null, 2)")
 
     block scripts
     script(type='text/javascript', src='/javascript/jquery-1.7.2.min.js')
     script(type='text/javascript', src='/javascript/bootstrap.min.js')
     script(type='text/javascript', src='/javascript/knockout-2.1.0.js')
+    script(type='text/javascript', src='/javascript/knockout.mapping-2.4.1.js')
     script(type='text/javascript', src='/javascript/userModel.js')
