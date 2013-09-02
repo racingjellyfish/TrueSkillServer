@@ -36,11 +36,11 @@ exports.calculate = function(req, res) {
 	var teamOneNewRating = newRatings[players[0]];
 	var teamTwoNewRating = newRatings[players[1]];
 
-
 	var users = [];
 	users.push({
 		id: 0,
-		name: 'Bob',
+		name: players[0].getId(),
+		rank: ranks[0],
 		rating: {
 			mean: teamOneNewRating.getMean(),
 			std: teamOneNewRating.getStandardDeviation()
@@ -48,7 +48,8 @@ exports.calculate = function(req, res) {
 	});
 	users.push({
 		id: 1,
-		name: 'Baldric',
+		name: players[1].getId(),
+		rank: ranks[1],
 		rating: {
 			mean: teamTwoNewRating.getMean(),
 			std: teamTwoNewRating.getStandardDeviation()

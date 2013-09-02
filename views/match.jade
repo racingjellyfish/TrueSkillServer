@@ -4,8 +4,8 @@ block content
   h1= title
 
   div
-    select(data-bind="options: users, optionsText: 'name', value: teamOne()")
-    select(data-bind="options: users, optionsText: 'name', value: teamTwo()")
+    select(data-bind="options: users, optionsText: 'name', optionsCaption: 'Choose...', value: teamOne")
+    select(data-bind="options: users, optionsText: 'name', optionsCaption: 'Choose...', value: teamTwo")
     input(type="button", value="Test", data-bind="click: test")
 
   div

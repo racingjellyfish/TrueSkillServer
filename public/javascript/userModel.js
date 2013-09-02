@@ -13,15 +13,14 @@ $(document).ready(function() {
 	UserModel.prototype.submit = function() {
 		console.log('posting: ', this.teamOne(), this.teamTwo());
 		var postData = {
-			users: ko.mapping.toJS(this.users())
+			teamOne: ko.mapping.toJS(this.teamOne()),
+			teamTwo: ko.mapping.toJS(this.teamTwo())
 		};
 		$.post("/matchCalculate", postData, function(returnedData) {
 			userModel.clear();
 			returnedData.forEach(function(userData) {
 				userModel.addUser(ko.mapping.fromJS(userData));
 			});
-			userModel.teamOne(ko.mapping.fromJS(returnedData[0]));
-			userModel.teamTwo(ko.mapping.fromJS(returnedData[1]));
 		}, "json");
 	};
 	UserModel.prototype.addUser = function(user) {
@@ -39,8 +38,6 @@ $(document).ready(function() {
 			data.forEach(function(userData) {
 				userModel.addUser(ko.mapping.fromJS(userData));
 			});
-			userModel.teamOne(ko.mapping.fromJS(data[0]));
-			userModel.teamTwo(ko.mapping.fromJS(data[1]));
 		},
 		error: function (httpRequest, textStatus, errorThrown) {
 			console.log('error: ', textStatus, errorThrown);
