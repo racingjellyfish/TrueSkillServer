@@ -1,7 +1,9 @@
 /*
- * GET users listing.
+ * Handle player requests.
+ *
+ * TODO: retrieve players from a DB...
  */
-exports.list = function(req, res){
+exports.list = function(req, res) {
 	var users = [];
 	users.push({
 		id: 0,
@@ -21,5 +23,6 @@ exports.list = function(req, res){
 			std: 25/3
 		}
 	});
+
 	res.send(users);
 };

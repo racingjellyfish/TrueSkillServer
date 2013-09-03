@@ -1,5 +1,5 @@
 /*
- * GET TrueSkill calculator.
+ * Handle TrueSkill calculator requests.
  */
 var express = require('express');
 var JsTrueSkill = require('jstrueskill');
@@ -9,7 +9,7 @@ var Rating = JsTrueSkill.Rating;
 var Team = JsTrueSkill.Team;
 var FactorGraphTrueSkillCalculator = JsTrueSkill.FactorGraphTrueSkillCalculator;
 
-exports.calculate = function(req, res){
+exports.calculate = function(req, res) {
 	var gameInfo = GameInfo.getDefaultGameInfo();
 
 	var defaultRating = gameInfo.getDefaultRating();

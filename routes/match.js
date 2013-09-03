@@ -1,5 +1,5 @@
 /*
- * GET TrueSkill calculator.
+ * Handle match processing.
  */
 var express = require('express');
 var JsTrueSkill = require('jstrueskill');
@@ -7,7 +7,7 @@ var GameInfo = JsTrueSkill.GameInfo;
 var FactorGraphTrueSkillCalculator = JsTrueSkill.FactorGraphTrueSkillCalculator;
 var MatchData = require('../lib/match/MatchData');
 
-exports.entry = function(req, res){
+exports.entry = function(req, res) {
 	var gameInfo = GameInfo.getDefaultGameInfo();
 
 	var defaultRating = gameInfo.getDefaultRating();
@@ -57,5 +57,6 @@ exports.calculate = function(req, res) {
 			std: teamTwoNewRating.getStandardDeviation()
 		}
 	});
+
 	res.send(users);
 };
