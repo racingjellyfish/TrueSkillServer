@@ -1,39 +1,39 @@
 $(document).ready(function() {
-	function UserModel() {
-		this.users = ko.observableArray();
+	function PlayerModel() {
+		this.players = ko.observableArray();
 		this.teamOne = ko.observable();
 		this.teamTwo = ko.observable();
 	};
-	UserModel.prototype.clear = function() {
-		this.users().splice(0, this.users().length);
+	PlayerModel.prototype.clear = function() {
+		this.players().splice(0, this.players().length);
 	};
-	UserModel.prototype.submit = function() {
+	PlayerModel.prototype.submit = function() {
 		console.log('posting: ', this.teamOne(), this.teamTwo());
 		var postData = {
 			teamOne: ko.mapping.toJS(this.teamOne()),
 			teamTwo: ko.mapping.toJS(this.teamTwo())
 		};
 		$.post("/matchCalculate", postData, function(returnedData) {
-			userModel.clear();
-			returnedData.forEach(function(userData) {
-				userModel.addUser(ko.mapping.fromJS(userData));
+			playerModel.clear();
+			returnedData.forEach(function(playerData) {
+				playerModel.addPlayer(ko.mapping.fromJS(playerData));
 			});
 		}, "json");
 	};
-	UserModel.prototype.addUser = function(user) {
-		this.users.push(user);
+	PlayerModel.prototype.addPlayer = function(player) {
+		this.players.push(player);
 	};
-	var userModel = new UserModel();
+	var playerModel = new PlayerModel();
 
-	ko.applyBindings(userModel);
+	ko.applyBindings(playerModel);
 
-	$.ajax({url: '/users',
+	$.ajax({url: '/players',
 		dataType: 'json',
 		data: {id:5},
 		success: function (data) {
-			console.log('users loaded: ', data);
-			data.forEach(function(userData) {
-				userModel.addUser(ko.mapping.fromJS(userData));
+			console.log('players loaded: ', data);
+			data.forEach(function(playerData) {
+				playerModel.addPlayer(ko.mapping.fromJS(playerData));
 			});
 		},
 		error: function (httpRequest, textStatus, errorThrown) {

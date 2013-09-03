@@ -3,7 +3,7 @@
  */
 var express = require('express');
 var routes = require('./routes');
-var users = require('./routes/users');
+var players = require('./routes/players');
 var calculator = require('./routes/calculator');
 var match = require('./routes/match');
 var http = require('http');
@@ -28,7 +28,7 @@ if ('development' == app.get('env')) {
 }
 
 app.get('/', routes.index);
-app.get('/users', users.list);
+app.get('/players', players.list);
 app.get('/calculator', calculator.calculate);
 
 app.get('/matchEntry', match.entry);
