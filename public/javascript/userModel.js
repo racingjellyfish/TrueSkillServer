@@ -4,9 +4,6 @@ $(document).ready(function() {
 		this.teamOne = ko.observable();
 		this.teamTwo = ko.observable();
 	};
-	UserModel.prototype.test = function() {
-		console.log(this.teamOne(), this.teamTwo());
-	};
 	UserModel.prototype.clear = function() {
 		this.users().splice(0, this.users().length);
 	};
