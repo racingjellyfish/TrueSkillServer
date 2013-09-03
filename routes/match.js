@@ -24,7 +24,9 @@ exports.entry = function(req, res){
 
 exports.calculate = function(req, res) {
 	var gameInfo = GameInfo.getDefaultGameInfo();
-	var matchData = new MatchData(req);
+
+	var matchJson = req.body;
+	var matchData = new MatchData(matchJson);
 	var teams = matchData.getTeams();
 	var ranks = matchData.getRanks();
 
