@@ -1,3 +1,5 @@
+// TODO: move logic to testable class then require it as a module...
+
 $(document).ready(function() {
 	function PlayerModel() {
 		this.players = ko.observableArray();

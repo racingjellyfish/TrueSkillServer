@@ -9,6 +9,7 @@ var Rating = JsTrueSkill.Rating;
 var Team = JsTrueSkill.Team;
 var FactorGraphTrueSkillCalculator = JsTrueSkill.FactorGraphTrueSkillCalculator;
 
+// TODO: move logic to testable class...
 exports.calculate = function(req, res) {
 	var gameInfo = GameInfo.getDefaultGameInfo();
 

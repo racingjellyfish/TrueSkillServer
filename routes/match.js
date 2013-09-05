@@ -23,6 +23,7 @@ exports.entry = function(req, res) {
 };
 
 exports.calculate = function(req, res) {
+	// TODO: move calculator logic to a testable class...
 	var gameInfo = GameInfo.getDefaultGameInfo();
 
 	var matchJson = req.body;
