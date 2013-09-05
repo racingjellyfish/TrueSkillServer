@@ -1,48 +1,48 @@
-/*
+/**
  * Handle TrueSkill calculator requests.
  */
 var express = require('express');
 var JsTrueSkill = require('jstrueskill');
 var GameInfo = JsTrueSkill.GameInfo;
-var Player = JsTrueSkill.Player;
-var Rating = JsTrueSkill.Rating;
-var Team = JsTrueSkill.Team;
 var FactorGraphTrueSkillCalculator = JsTrueSkill.FactorGraphTrueSkillCalculator;
+var MatchData = require('../lib/match/MatchData');
 
-// TODO: move logic to testable class...
+// TODO: move calculator logic to a testable class...
 exports.calculate = function(req, res) {
 	var gameInfo = GameInfo.getDefaultGameInfo();
 
-	var defaultRating = gameInfo.getDefaultRating();
-
-	var teamOneMean = req.param('teamOneMean') || defaultRating.getMean();
-	var teamOneStd = req.param('teamOneStd') || defaultRating.getStandardDeviation();
-	var teamOneRank = req.param('teamOneRank') || 1;
-	var teamTwoMean = req.param('teamTwoMean') || defaultRating.getMean();
-	var teamTwoStd = req.param('teamTwoStd') || defaultRating.getStandardDeviation();
-	var teamTwoRank = req.param('teamTwoRank') || 2;
-
-	var teamOneRating = new Rating(teamOneMean, teamOneStd);
-	var teamTwoRating = new Rating(teamTwoMean, teamTwoStd);
-
-	var player1 = new Player('1');
-	var player2 = new Player('2');
-
-	var team1 = new Team('One', player1, teamOneRating);
-	var team2 = new Team('Two', player2, teamTwoRating);
-
-	var teams = Team.concat(team1, team2);
+	var matchJson = req.body;
+	var matchData = new MatchData(matchJson);
+	var teams = matchData.getTeams();
+	var ranks = matchData.getRanks();
 
 	var calculator = new FactorGraphTrueSkillCalculator();
 
-	var newRatings = calculator.calculateNewRatings(gameInfo, teams, [teamOneRank, teamTwoRank]);
-	var teamOneNewRating = newRatings[player1];
-	var teamTwoNewRating = newRatings[player2];
+	var newRatings = calculator.calculateNewRatings(gameInfo, teams, ranks);
+	var players = matchData.getPlayers();
 
-	res.render('calculation', {
-		teamOneRating: teamOneRating,
-		teamTwoRating: teamTwoRating,
-		teamOneNewRating: teamOneNewRating,
-		teamTwoNewRating: teamTwoNewRating
+	var teamOneNewRating = newRatings[players[0]];
+	var teamTwoNewRating = newRatings[players[1]];
+
+	var updatedPlayers = [];
+	updatedPlayers.push({
+		id: 0,
+		name: players[0].getId(),
+		rank: ranks[0],
+		rating: {
+			mean: teamOneNewRating.getMean(),
+			std: teamOneNewRating.getStandardDeviation()
+		}
 	});
+	updatedPlayers.push({
+		id: 1,
+		name: players[1].getId(),
+		rank: ranks[1],
+		rating: {
+			mean: teamTwoNewRating.getMean(),
+			std: teamTwoNewRating.getStandardDeviation()
+		}
+	});
+
+	res.send(updatedPlayers);
 };

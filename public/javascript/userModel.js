@@ -15,7 +15,7 @@ $(document).ready(function() {
 			teamOne: ko.mapping.toJS(this.teamOne()),
 			teamTwo: ko.mapping.toJS(this.teamTwo())
 		};
-		$.post("/matchCalculate", postData, function(returnedData) {
+		$.post("/calculate", postData, function(returnedData) {
 			playerModel.clear();
 			returnedData.forEach(function(playerData) {
 				playerModel.addPlayer(ko.mapping.fromJS(playerData));
