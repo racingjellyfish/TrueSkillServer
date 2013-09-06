@@ -1,42 +1,37 @@
-/*
- TODO: implement tests...
+var DataStoreFactory = require('../../lib/DataStoreFactory');
 
- var DataStoreFactory = require('./lib/DataStoreFactory');
- var dataStore = {
- list: function() {
- return [];
- }
- };
- DataStoreFactory.INSTANCE.setPlayerDataStore(dataStore);
+exports.defaultNotNull = function(test) {
+	var playerDataStore = DataStoreFactory.INSTANCE.getPlayerDataStore();
+	test.ok(playerDataStore !== undefined, "Expected a valid player data store");
 
-exports.throwsWithoutTeamData = function(test) {
-	test.throws(( function() {new MatchData(undefined);} ),
-		"Expected new MatchData(undefined) to throw");
+	test.done();
+};
 
-	var matchJson = {};
-	test.throws(( function() {new MatchData(matchJson);} ),
-		"Expected new MatchData({}) to throw");
+exports.mockPlayerDataStoreReturnsPlayers = function(test) {
+	_setupPlayerDataStore();
 
-	matchJson = {
-		teamOne: {}
+	var playerDataStore = DataStoreFactory.INSTANCE.getPlayerDataStore();
+	test.ok(playerDataStore !== undefined, "Expected a valid player data store");
+
+	var players = playerDataStore.list();
+	test.ok(players.length > 0, "Expected non-empty array of players");
+
+	test.done();
+};
+
+function _setupPlayerDataStore() {
+	var mockPlayer = {
+		name: 'mockPlayer'
 	};
-	test.throws(( function() {new MatchData(matchJson);} ),
-		"Expected new MatchData to throw due to missing teamTwo");
 
-	test.done();
-};
+	var playerList = [];
+	playerList.push(mockPlayer);
 
-exports.teamsMatchJson = function(test) {
-	var matchData = new MatchData(MATCH_JSON);
+	var mockPlayerDataStore = {
+		list: function() {
+			return playerList;
+		}
+	};
 
-	var player = new Player('Player1');
-	var rating = new Rating(25, 25/3);
-	var expected = new Team('One', player, rating);
-	test.ok(matchData.getTeam(0).equals(expected), "Expected team: " + expected);
-	player = new Player('Player2');
-	expected = new Team('Two', player, rating);
-	test.ok(matchData.getTeam(1).equals(expected), "Expected team: " + expected);
-
-	test.done();
-};
-*/
+	DataStoreFactory.INSTANCE.setPlayerDataStore(mockPlayerDataStore);
+}
