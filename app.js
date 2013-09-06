@@ -30,7 +30,7 @@ if ('development' == app.get('env')) {
 app.get('/', routes.index);
 app.get('/players', players.list);
 
-app.get('/matchEntry', match.entry);
+app.get('/create', match.create);
 app.post('/calculate', calculator.calculate);
 
 http.createServer(app).listen(app.get('port'), function(){
