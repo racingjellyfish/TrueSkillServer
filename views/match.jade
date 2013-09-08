@@ -42,8 +42,4 @@ block content
     pre(data-bind="text: ko.toJSON($root, null, 2)")
 
     block scripts
-    script(type='text/javascript', src='/javascript/jquery-1.7.2.min.js')
-    script(type='text/javascript', src='/javascript/bootstrap.min.js')
-    script(type='text/javascript', src='/javascript/knockout-2.1.0.js')
-    script(type='text/javascript', src='/javascript/knockout.mapping-2.4.1.js')
-    script(type='text/javascript', src='/javascript/userModel.js')
+    script(type='text/javascript', src='/javascript/require.js', data-main='/javascript/main.js')

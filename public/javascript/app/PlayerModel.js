@@ -1,7 +1,7 @@
 /**
  * Handles the players in the UI.
  */
-define([], function() {
+define(['knockout', 'knockout.mapping'], function(ko, komapping) {
 		return {
 			players: ko.observableArray(),
 			teamOne: ko.observable(),
@@ -18,13 +18,13 @@ define([], function() {
 			submit: function() {
 				var self = this;
 				var postData = {
-					teamOne: ko.mapping.toJS(self.teamOne()),
-					teamTwo: ko.mapping.toJS(self.teamTwo())
+					teamOne: komapping.toJS(self.teamOne()),
+					teamTwo: komapping.toJS(self.teamTwo())
 				};
 				$.post("/calculate", postData, function(returnedData) {
 					self.clear();
 					returnedData.forEach(function(playerData) {
-						self.addPlayer(ko.mapping.fromJS(playerData));
+						self.addPlayer(komapping.fromJS(playerData));
 					});
 				}, "json");
 			},
