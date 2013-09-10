@@ -29,8 +29,9 @@ requirejs.config({
 define(['jquery', 'knockout', 'bootstrap'],
 	function(jquery, ko) {
 
-	require(['app/PlayerModel'], function(playerModel) {
+	require(['app/PlayerModel'], function(PlayerModel) {
 		$(document).ready(function() {
+			var playerModel = new PlayerModel();
 			ko.applyBindings(playerModel);
 
 			$.ajax({url: '/players',
