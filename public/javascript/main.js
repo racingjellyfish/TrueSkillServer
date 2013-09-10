@@ -29,24 +29,25 @@ requirejs.config({
 define(['jquery', 'knockout', 'bootstrap'],
 	function(jquery, ko) {
 
-	require(['app/PlayerModel'], function(PlayerModel) {
-		$(document).ready(function() {
-			var playerModel = new PlayerModel();
-			ko.applyBindings(playerModel);
+		require(['app/PlayerModel'], function(PlayerModel) {
+			$(document).ready(function() {
+				var playerModel = new PlayerModel();
+				ko.applyBindings(playerModel);
 
-			$.ajax({url: '/players',
-				dataType: 'json',
-				data: {id:5},
-				success: function (data) {
-					console.log('players loaded: ', data);
-					data.forEach(function(playerData) {
-						playerModel.addPlayer(ko.mapping.fromJS(playerData));
-					});
-				},
-				error: function (httpRequest, textStatus, errorThrown) {
-					console.log('error: ', textStatus, errorThrown);
-				}
+				$.ajax({url: '/players',
+					dataType: 'json',
+					data: {id:5},
+					success: function (data) {
+						console.log('players loaded: ', data);
+						data.forEach(function(playerData) {
+							playerModel.addPlayer(ko.mapping.fromJS(playerData));
+						});
+					},
+					error: function (httpRequest, textStatus, errorThrown) {
+						console.log('error: ', textStatus, errorThrown);
+					}
+				});
 			});
 		});
-	});
-});
+	}
+);
