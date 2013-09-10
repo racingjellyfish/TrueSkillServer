@@ -1,7 +1,7 @@
 /**
  * Handles the players in the UI.
  */
-define(['knockout'], function(ko) {
+define(['knockout', 'jquery'], function(ko) {
 	function PlayerModel() {
 		this.players = ko.observableArray();
 		this.teamOne = ko.observable();
@@ -9,10 +9,33 @@ define(['knockout'], function(ko) {
 	};
 
 	/**
-	 * Clear the current model.
+	 * Load the player data from the server.
 	 */
-	PlayerModel.prototype.clear = function() {
-		this.players().splice(0, this.players().length);
+	PlayerModel.prototype.load = function() {
+		var self = this;
+
+		$.ajax({url: '/players',
+			dataType: 'json',
+			data: {id:5},
+			success: function (data) {
+				console.log('players loaded: ', data);
+				data.forEach(function(playerData) {
+					self.addPlayer(ko.mapping.fromJS(playerData));
+				});
+			},
+			error: function (httpRequest, textStatus, errorThrown) {
+				console.log('error: ', textStatus, errorThrown);
+			}
+		});
+	};
+
+	/**
+	 * Add a player to the model.
+	 *
+	 * @param player to add to the match
+	 */
+	PlayerModel.prototype.addPlayer = function(player) {
+		this.players.push(player);
 	};
 
 	/**
@@ -33,12 +56,10 @@ define(['knockout'], function(ko) {
 	};
 
 	/**
-	 * Add a player to the model.
-	 *
-	 * @param player to add to the match
+	 * Clear the current model.
 	 */
-	PlayerModel.prototype.addPlayer = function(player) {
-		this.players.push(player);
+	PlayerModel.prototype.clear = function() {
+		this.players().splice(0, this.players().length);
 	};
 
 	return PlayerModel;
