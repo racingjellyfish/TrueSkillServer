@@ -9,5 +9,5 @@
  * @param res the response to be returned to the client
  */
 exports.create = function(req, res) {
-	res.render('match', {});
+	res.render('match', {showDebug: req.query.showDebug});
 };
