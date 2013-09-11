@@ -1,48 +1,48 @@
 extends layout
 
 block content
-  h1= title
+	h1= title
 
-  div
-    select(data-bind="options: players, optionsText: 'name', optionsCaption: 'Choose...', value: teamOne")
-    select(data-bind="options: players, optionsText: 'name', optionsCaption: 'Choose...', value: teamTwo")
+	div
+		select(data-bind='options: players, optionsText: "name", optionsCaption: "Choose...", value: teamOne')
+		select(data-bind='options: players, optionsText: "name", optionsCaption: "Choose...", value: teamTwo')
 
-  div
-    div
-        span Team One Mean
-        div(data-bind="if: teamOne()")
-            span(data-bind="text: teamOne().rating.mean")
-    div
-        span Team One Std
-        div(data-bind="if: teamOne()")
-            span(data-bind="text: teamOne().rating.std")
-    div
-        span Team One Rank
-        div(data-bind="if: teamOne()")
-            input(data-bind="value: teamOne().rank")
-    div
-        span Team Two Mean
-        div(data-bind="if: teamTwo()")
-            span(data-bind="text: teamTwo().rating.mean")
-    div
-        span Team Two Std
-        div(data-bind="if: teamTwo()")
-            span(data-bind="text: teamTwo().rating.std")
-    div
-        span Team Two Rank
-        div(data-bind="if: teamTwo()")
-            input(data-bind="value: teamTwo().rank")
+	div
+		div
+			span Team One Mean
+			div(data-bind='if: teamOne()')
+				span(data-bind='text: teamOne().rating.mean')
+		div
+			span Team One Std
+			div(data-bind='if: teamOne()')
+				span(data-bind='text: teamOne().rating.std')
+		div
+			span Team One Rank
+			div(data-bind='if: teamOne()')
+				input(data-bind='value: teamOne().rank')
+		div
+			span Team Two Mean
+			div(data-bind='if: teamTwo()')
+				span(data-bind='text: teamTwo().rating.mean')
+		div
+			span Team Two Std
+			div(data-bind='if: teamTwo()')
+				span(data-bind='text: teamTwo().rating.std')
+		div
+			span Team Two Rank
+			div(data-bind='if: teamTwo()')
+				input(data-bind='value: teamTwo().rank')
 
-    div
-        input(type='button',value='Calculate',data-bind='click: submit')
+		div
+			input(type='button', value='Calculate', data-bind='click: submit')
 
-    div
-        div(data-bind="foreach: players")
-            div
-                span(data-bind="text: name")
-                span(data-bind="text: rating.mean")
+		div
+			div(data-bind='foreach: players')
+				div
+					span(data-bind='text: name')
+					span(data-bind='text: rating.mean')
 
-    pre(data-bind="text: ko.toJSON($root, null, 2), visible: #{showDebug}")
+		pre(data-bind='text: ko.toJSON($root, null, 2), visible: #{showDebug}')
 
-    block scripts
-    script(type='text/javascript', src='/javascript/require.js', data-main='/javascript/main.js')
+		block scripts
+		script(type='text/javascript', src='/javascript/require.js', data-main='/javascript/main.js')

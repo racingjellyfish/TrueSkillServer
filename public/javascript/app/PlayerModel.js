@@ -47,12 +47,12 @@ define(['knockout', 'jquery'], function(ko) {
 			teamOne: ko.mapping.toJS(self.teamOne()),
 			teamTwo: ko.mapping.toJS(self.teamTwo())
 		};
-		$.post("/calculate", postData, function(returnedData) {
+		$.post('/calculate', postData, function(returnedData) {
 			self.clear();
 			returnedData.forEach(function(playerData) {
 				self.addPlayer(ko.mapping.fromJS(playerData));
 			});
-		}, "json");
+		}, 'json');
 	};
 
 	/**
