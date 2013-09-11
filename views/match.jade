@@ -36,8 +36,11 @@ block content
     div
         input(type='button',value='Calculate',data-bind='click: submit')
 
-    p Team 1 Updated Rating: #{teamOneNewRating}
-    p Team 2 Updated Rating: #{teamTwoNewRating}
+    div
+        div(data-bind="foreach: players")
+            div
+                span(data-bind="text: name")
+                span(data-bind="text: rating.mean")
 
     pre(data-bind="text: ko.toJSON($root, null, 2), visible: #{showDebug}")
 

@@ -3,6 +3,7 @@
  */
 define(['knockout', 'jquery'], function(ko) {
 	function PlayerModel() {
+		// TODO: sort players...
 		this.players = ko.observableArray();
 		this.teamOne = ko.observable();
 		this.teamTwo = ko.observable();
@@ -18,7 +19,6 @@ define(['knockout', 'jquery'], function(ko) {
 			dataType: 'json',
 			data: {id:5},
 			success: function (data) {
-				console.log('players loaded: ', data);
 				data.forEach(function(playerData) {
 					self.addPlayer(ko.mapping.fromJS(playerData));
 				});
@@ -32,7 +32,7 @@ define(['knockout', 'jquery'], function(ko) {
 	/**
 	 * Add a player to the model.
 	 *
-	 * @param player to add to the match
+	 * @param player to add to the model
 	 */
 	PlayerModel.prototype.addPlayer = function(player) {
 		this.players.push(player);
