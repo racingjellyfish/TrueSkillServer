@@ -7,6 +7,8 @@ define(['knockout', 'jquery'], function(ko) {
 		this.players = ko.observableArray();
 		this.teamOne = ko.observable();
 		this.teamTwo = ko.observable();
+
+		this.playerMap = {};
 	};
 
 	/**
@@ -22,6 +24,7 @@ define(['knockout', 'jquery'], function(ko) {
 				data.forEach(function(playerData) {
 					self.addPlayer(ko.mapping.fromJS(playerData));
 				});
+				self.sortPlayers();
 			},
 			error: function (httpRequest, textStatus, errorThrown) {
 				console.log('error: ', textStatus, errorThrown);
@@ -34,8 +37,37 @@ define(['knockout', 'jquery'], function(ko) {
 	 *
 	 * @param player to add to the model
 	 */
-	PlayerModel.prototype.addPlayer = function(player) {
-		this.players.push(player);
+	PlayerModel.prototype.addPlayer = function(newPlayer) {
+		var player = this.playerMap[newPlayer.id()];
+
+		if (player) {
+			for (var playerIndex = 0; playerIndex < this.players().length; playerIndex++) {
+				if (Number(this.players()[playerIndex].id()) === Number(newPlayer.id())) {
+					this.players()[playerIndex] = newPlayer;
+				}
+			}
+		} else {
+			this.players.push(newPlayer);
+		}
+		this.playerMap[newPlayer.id()] = newPlayer;
+	};
+
+	/**
+	 * Sort the players in the model.
+	 */
+	PlayerModel.prototype.sortPlayers = function() {
+		this.players.sort(this._sort);
+	};
+
+	PlayerModel.prototype._sort = function(player0, player1) {
+		var mean0 = player0.rating.mean();
+		var mean1 = player1.rating.mean();
+		if (mean0 < mean1) {
+			return 1;
+		} else if (mean0 > mean1) {
+			return -1;
+		}
+		return 0;
 	};
 
 	/**
@@ -48,10 +80,10 @@ define(['knockout', 'jquery'], function(ko) {
 			teamTwo: ko.mapping.toJS(self.teamTwo())
 		};
 		$.post('/calculate', postData, function(returnedData) {
-			self.clear();
 			returnedData.forEach(function(playerData) {
 				self.addPlayer(ko.mapping.fromJS(playerData));
 			});
+			self.sortPlayers();
 		}, 'json');
 	};
 
