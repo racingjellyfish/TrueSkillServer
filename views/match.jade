@@ -4,8 +4,8 @@ block content
 	h1= title
 
 	div
-		select(data-bind='options: players, optionsText: "name", optionsCaption: "Choose...", value: teamOne')
-		select(data-bind='options: players, optionsText: "name", optionsCaption: "Choose...", value: teamTwo')
+		select(data-bind='options: league.players, optionsText: "name", optionsCaption: "Choose...", value: teamOne')
+		select(data-bind='options: league.players, optionsText: "name", optionsCaption: "Choose...", value: teamTwo')
 
 	div
 		div
@@ -37,7 +37,7 @@ block content
 			input(type='button', value='Calculate', data-bind='click: submit')
 
 		div
-			div(data-bind='foreach: players')
+			div(data-bind='foreach: league.players')
 				div
 					span(data-bind='text: name')
 					span(data-bind='text: rating.mean')

@@ -33,7 +33,7 @@ define(['knockout', 'jquery', 'bootstrap'],
 				var playerModel = new PlayerModel();
 				ko.applyBindings(playerModel);
 
-				playerModel.load();
+				playerModel.league.load();
 			});
 		});
 	}
