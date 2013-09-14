@@ -16,8 +16,16 @@ define(['knockout', 'app/LeagueTable', 'jquery'], function(ko, LeagueTable) {
 	PlayerModel.prototype.submit = function() {
 		var self = this;
 		var postData = {
-			teamOne: ko.mapping.toJS(self.teamOne()),
-			teamTwo: ko.mapping.toJS(self.teamTwo())
+			teamOne: {
+				id: self.teamOne().id,
+				name: self.teamOne().name,
+				rank: self.teamOne().rank
+			},
+			teamTwo: {
+				id: self.teamTwo().id,
+				name: self.teamTwo().name,
+				rank: self.teamTwo().rank
+			}
 		};
 		$.post('/calculate', postData, function(returnedData) {
 			returnedData.forEach(function(playerData) {
