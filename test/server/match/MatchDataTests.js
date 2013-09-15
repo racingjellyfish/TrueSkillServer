@@ -1,10 +1,10 @@
+var DataStoreFactory = require('../../../lib/DataStoreFactory');
 var MatchData = require('../../../lib/match/MatchData');
+
 var JsTrueSkill = require('jstrueskill');
 var Player = JsTrueSkill.Player;
 var Rating = JsTrueSkill.Rating;
 var Team = JsTrueSkill.Team;
-
-var DataStoreFactory = require('../../../lib/DataStoreFactory');
 
 var MATCH_JSON = {
 	teamOne: {
@@ -50,9 +50,12 @@ exports.okWithValidData = function(test) {
 	test.ok(matchData !== undefined, "Expected valid MatchData");
 
 	var expected = 2;
-	test.equals(matchData.getTeams().length, expected, "Number of teams expected: " + expected);
-	test.equals(matchData.getRanks().length, expected, "Number of ranks expected: " + expected);
-	test.equals(matchData.getPlayers().length, expected, "Number of players expected: " + expected);
+	var actual = matchData.getTeams().length;
+	test.equals(actual, expected, "Number of teams expected: " + expected + "; actual: " + actual);
+	actual = matchData.getRanks().length;
+	test.equals(actual, expected, "Number of ranks expected: " + expected + "; actual: " + actual);
+	actual = matchData.getPlayers().length;
+	test.equals(actual, expected, "Number of players expected: " + expected + "; actual: " + actual);
 
 	test.done();
 };
@@ -61,9 +64,11 @@ exports.teamRanksMatchJson = function(test) {
 	var matchData = new MatchData(MATCH_JSON);
 
 	var expected = 1;
-	test.equals(matchData.getRank(0), expected, "Expected team one rank of: " + expected);
+	var actual = matchData.getRank(0);
+	test.equals(actual, expected, "Expected team one rank of: " + expected + "; actual: " + actual);
 	expected = 2;
-	test.equals(matchData.getRank(1), expected, "Expected team two rank of: " + expected);
+	actual = matchData.getRank(1);
+	test.equals(actual, expected, "Expected team two rank of: " + expected + "; actual: " + actual);
 
 	test.done();
 };
@@ -75,9 +80,11 @@ exports.playersMatchJson = function(test) {
 
 	var players = matchData.getPlayers();
 	var expected = new Player('Player1');
-	test.ok(players[0].equals(expected), "Expected player: " + expected + "; actual: " + players[0]);
+	var actual = players[0];
+	test.ok(players[0].equals(expected), "Expected player: " + expected + "; actual: " + actual);
 	expected = new Player('Player2');
-	test.ok(players[1].equals(expected), "Expected player: " + expected + "; actual: " + players[1]);
+	actual = players[1];
+	test.ok(players[1].equals(expected), "Expected player: " + expected + "; actual: " + actual);
 
 	test.done();
 };
