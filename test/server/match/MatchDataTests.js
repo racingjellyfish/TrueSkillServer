@@ -4,23 +4,15 @@ var Player = JsTrueSkill.Player;
 var Rating = JsTrueSkill.Rating;
 var Team = JsTrueSkill.Team;
 
+var DataStoreFactory = require('../../../lib/DataStoreFactory');
+
 var MATCH_JSON = {
 	teamOne: {
-		id: 1,
-		name: 'Player1',
-		rating: {
-			mean: 25,
-			std: 25/3
-		},
+		id: '0',
 		rank: 1
 	},
 	teamTwo: {
-		id: 0,
-		name: 'Player2',
-		rating: {
-			mean: 25,
-			std: 25/3
-		},
+		id: '1',
 		rank: 2
 	}
 };
@@ -77,27 +69,71 @@ exports.teamRanksMatchJson = function(test) {
 };
 
 exports.playersMatchJson = function(test) {
+	_setupPlayerDataStore();
+
 	var matchData = new MatchData(MATCH_JSON);
 
 	var players = matchData.getPlayers();
 	var expected = new Player('Player1');
-	test.ok(players[0].equals(expected), "Expected player: " + expected);
+	test.ok(players[0].equals(expected), "Expected player: " + expected + "; actual: " + players[0]);
 	expected = new Player('Player2');
-	test.ok(players[1].equals(expected), "Expected player: " + expected);
+	test.ok(players[1].equals(expected), "Expected player: " + expected + "; actual: " + players[1]);
 
 	test.done();
 };
 
 exports.teamsMatchJson = function(test) {
+	_setupPlayerDataStore();
+
 	var matchData = new MatchData(MATCH_JSON);
 
 	var player = new Player('Player1');
 	var rating = new Rating(25, 25/3);
-	var expected = new Team('One', player, rating);
-	test.ok(matchData.getTeam(0).equals(expected), "Expected team: " + expected);
+	var expected = new Team('0', player, rating);
+	test.ok(matchData.getTeam(0).equals(expected), "Expected team: " + expected + "; actual: " + matchData.getTeam(0));
 	player = new Player('Player2');
-	expected = new Team('Two', player, rating);
-	test.ok(matchData.getTeam(1).equals(expected), "Expected team: " + expected);
+	expected = new Team('1', player, rating);
+	test.ok(matchData.getTeam(1).equals(expected), "Expected team: " + expected + "; actual: " + matchData.getTeam(1));
 
 	test.done();
 };
+
+function _setupPlayerDataStore() {
+	var mockPlayer0 = {
+		id: 0,
+		name: 'Player1',
+		rating: {
+			mean: 25,
+			std: 25/3
+		}
+	};
+	var mockPlayer1 = {
+		id: 1,
+		name: 'Player2',
+		rating: {
+			mean: 25,
+			std: 25/3
+		}
+	};
+
+	var playerList = [];
+	playerList.push(mockPlayer0);
+	playerList.push(mockPlayer1);
+	var playerMap = {};
+	playerMap[mockPlayer0.id] = mockPlayer0;
+	playerMap[mockPlayer1.id] = mockPlayer1;
+
+	var mockPlayerDataStore = {
+		list: function() {
+			return playerList;
+		},
+		getPlayer: function(id) {
+			return playerMap[id];
+		},
+		update: function(id, rating) {
+
+		}
+	};
+
+	DataStoreFactory.INSTANCE.setPlayerDataStore(mockPlayerDataStore);
+}

@@ -2,9 +2,11 @@ var Calculation = require('../../../lib/match/Calculation');
 var MatchData = require('../../../lib/match/MatchData');
 var TestUtil = require('../../libs/TestUtil');
 
+var DataStoreFactory = require('../../../lib/DataStoreFactory');
+
 var MATCH_JSON = {
 	teamOne: {
-		id: 1,
+		id: '1',
 		name: 'Player1',
 		rating: {
 			mean: 25,
@@ -13,7 +15,7 @@ var MATCH_JSON = {
 		rank: 1
 	},
 	teamTwo: {
-		id: 0,
+		id: '0',
 		name: 'Player2',
 		rating: {
 			mean: 25,
@@ -27,6 +29,8 @@ var calculation;
 var matchResult;
 
 exports.setUp = function(callback) {
+	_setupPlayerDataStore();
+
 	var matchData = new MatchData(MATCH_JSON);
 	calculation = new Calculation(matchData);
 	matchResult = calculation.run();
@@ -65,3 +69,43 @@ exports.matchResultCalculatedAsExpected = function(test) {
 
 	test.done();
 };
+
+function _setupPlayerDataStore() {
+	var mockPlayer0 = {
+		id: 0,
+		name: 'mockPlayer0',
+		rating: {
+			mean: 25,
+			std: 25/3
+		}
+	};
+	var mockPlayer1 = {
+		id: 1,
+		name: 'mockPlayer1',
+		rating: {
+			mean: 25,
+			std: 25/3
+		}
+	};
+
+	var playerList = [];
+	playerList.push(mockPlayer0);
+	playerList.push(mockPlayer1);
+	var playerMap = {};
+	playerMap[mockPlayer0.id] = mockPlayer0;
+	playerMap[mockPlayer1.id] = mockPlayer1;
+
+	var mockPlayerDataStore = {
+		list: function() {
+			return playerList;
+		},
+		getPlayer: function(id) {
+			return playerMap[id];
+		},
+		update: function(id, rating) {
+
+		}
+	};
+
+	DataStoreFactory.INSTANCE.setPlayerDataStore(mockPlayerDataStore);
+}

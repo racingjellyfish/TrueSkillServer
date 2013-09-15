@@ -21,15 +21,24 @@ exports.mockPlayerDataStoreReturnsPlayers = function(test) {
 
 function _setupPlayerDataStore() {
 	var mockPlayer = {
+		id: 0,
 		name: 'mockPlayer'
 	};
 
 	var playerList = [];
 	playerList.push(mockPlayer);
+	var playerMap = {};
+	playerMap[mockPlayer.id] = mockPlayer;
 
 	var mockPlayerDataStore = {
 		list: function() {
 			return playerList;
+		},
+		getPlayer: function(id) {
+			return playerMap[id];
+		},
+		update: function(id, rating) {
+
 		}
 	};
 
