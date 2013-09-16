@@ -6,6 +6,8 @@ var Player = JsTrueSkill.Player;
 var Rating = JsTrueSkill.Rating;
 var Team = JsTrueSkill.Team;
 
+var MockPlayerDataStore = require('../MockPlayerDataStore');
+
 var MATCH_JSON = {
 	teamOne: {
 		id: '0',
@@ -123,24 +125,9 @@ function _setupPlayerDataStore() {
 		}
 	};
 
-	var playerList = [];
-	playerList.push(mockPlayer0);
-	playerList.push(mockPlayer1);
-	var playerMap = {};
-	playerMap[mockPlayer0.id] = mockPlayer0;
-	playerMap[mockPlayer1.id] = mockPlayer1;
-
-	var mockPlayerDataStore = {
-		list: function() {
-			return playerList;
-		},
-		getPlayer: function(id) {
-			return playerMap[id];
-		},
-		update: function(id, rating) {
-
-		}
-	};
+	var mockPlayerDataStore = new MockPlayerDataStore();
+	mockPlayerDataStore.add(mockPlayer0);
+	mockPlayerDataStore.add(mockPlayer1);
 
 	DataStoreFactory.INSTANCE.setPlayerDataStore(mockPlayerDataStore);
 }

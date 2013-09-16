@@ -1,8 +1,9 @@
 var Calculation = require('../../../lib/match/Calculation');
 var MatchData = require('../../../lib/match/MatchData');
-var TestUtil = require('../../libs/TestUtil');
-
 var DataStoreFactory = require('../../../lib/DataStoreFactory');
+
+var TestUtil = require('../../libs/TestUtil');
+var MockPlayerDataStore = require('../MockPlayerDataStore');
 
 var MATCH_JSON = {
 	teamOne: {
@@ -88,24 +89,9 @@ function _setupPlayerDataStore() {
 		}
 	};
 
-	var playerList = [];
-	playerList.push(mockPlayer0);
-	playerList.push(mockPlayer1);
-	var playerMap = {};
-	playerMap[mockPlayer0.id] = mockPlayer0;
-	playerMap[mockPlayer1.id] = mockPlayer1;
-
-	var mockPlayerDataStore = {
-		list: function() {
-			return playerList;
-		},
-		getPlayer: function(id) {
-			return playerMap[id];
-		},
-		update: function(id, rating) {
-
-		}
-	};
+	var mockPlayerDataStore = new MockPlayerDataStore();
+	mockPlayerDataStore.add(mockPlayer0);
+	mockPlayerDataStore.add(mockPlayer1);
 
 	DataStoreFactory.INSTANCE.setPlayerDataStore(mockPlayerDataStore);
 }

@@ -1,5 +1,7 @@
 var DataStoreFactory = require('../../lib/DataStoreFactory');
 
+var MockPlayerDataStore = require('./MockPlayerDataStore');
+
 exports.defaultNotNull = function(test) {
 	var playerDataStore = DataStoreFactory.INSTANCE.getPlayerDataStore();
 	test.ok(playerDataStore !== undefined, "Expected a valid player data store");
@@ -35,22 +37,8 @@ function _setupPlayerDataStore() {
 		name: 'mockPlayer'
 	};
 
-	var playerList = [];
-	playerList.push(mockPlayer);
-	var playerMap = {};
-	playerMap[mockPlayer.id] = mockPlayer;
-
-	var mockPlayerDataStore = {
-		list: function() {
-			return playerList;
-		},
-		getPlayer: function(id) {
-			return playerMap[id];
-		},
-		update: function(id, rating) {
-
-		}
-	};
+	var mockPlayerDataStore = new MockPlayerDataStore();
+	mockPlayerDataStore.add(mockPlayer);
 
 	DataStoreFactory.INSTANCE.setPlayerDataStore(mockPlayerDataStore);
 }
