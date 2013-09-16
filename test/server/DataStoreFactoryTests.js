@@ -19,6 +19,16 @@ exports.mockPlayerDataStoreReturnsPlayers = function(test) {
 	test.done();
 };
 
+exports.mockPlayerDataStoreReturnsExpectedPlayer = function(test) {
+	_setupPlayerDataStore();
+
+	var playerDataStore = DataStoreFactory.INSTANCE.getPlayerDataStore();
+	var player = playerDataStore.get(0);
+	test.ok(player.name === 'mockPlayer', "Expected non-empty array of players");
+
+	test.done();
+};
+
 function _setupPlayerDataStore() {
 	var mockPlayer = {
 		id: 0,
