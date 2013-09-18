@@ -2,6 +2,8 @@ module.exports = function(grunt) {
 
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
+
+		clean : ['build'],
 		connect: {
 			uses_defaults: {}
 		},
@@ -51,9 +53,34 @@ module.exports = function(grunt) {
 		watch: {
 			files: ['<%= jshint.files %>'],
 			tasks: ['jshint', 'qunit']
+		},
+		instrument : {
+			files : 'lib/**/*.js',
+			options : {
+				lazy : true,
+				basePath : 'build/instrument/'
+			}
+		},
+		reload : {
+			rootPath : 'build/instrument/lib'
+		},
+		storeCoverage : {
+			options : {
+				dir : 'build/reports/'
+			}
+		},
+		makeReport : {
+			src : 'build/reports/**/*.json',
+			options : {
+				type : 'lcov',
+				dir : 'build/reports/',
+				print : 'detail'
+			}
 		}
 	});
 
+	grunt.loadTasks('node_modules/grunt-istanbul/tasks');
+	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-connect');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
@@ -66,7 +93,11 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('test-server', ['jshint', 'nodeunit']);
 
-	grunt.registerTask('default', ['jshint', 'nodeunit', 'connect', 'qunit', 'concat', 'uglify']);
+	grunt.registerTask('default', ['jshint', 'nodeunit', 'connect', 'qunit',
+		'concat', 'uglify']);
+
+	grunt.registerTask('cover', ['clean', 'instrument', 'reload', 'nodeunit',
+		'storeCoverage', 'makeReport']);
 
 	grunt.event.on('qunit.spawn', function (url) {
 		grunt.log.ok("\nRunning ui test: " + url);
